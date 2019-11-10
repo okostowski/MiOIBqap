@@ -41,6 +41,15 @@ if __name__ == "__main__":
             random["scores"].append(int(res[1]))
         file.close()
         
+        file = open(folder_path+"/"+instance_name+"/"+instance_name+"_h.txt")
+        heu_all_data = file.read().split("\n\n")
+        heu = {"assignments":[], "scores":[], "mean_time":float(heu_all_data[-1])/10.0}
+        for result in heu_all_data[:-1]:
+            res = result.split("\n")
+            heu["assignments"].append([int(x) for x in res[0].split(" ")[:-1]])
+            heu["scores"].append(int(res[1]))
+        file.close()
+        
         steepest["start_scores"] = np.array(steepest["start_scores"])
         greedy["start_scores"] = np.array(greedy["start_scores"])
         steepest["steps"] = np.array(steepest["steps"])
@@ -48,6 +57,7 @@ if __name__ == "__main__":
         steepest["scores"] = np.array(steepest["scores"])
         greedy["scores"] = np.array(greedy["scores"])
         random["scores"] = np.array(random["scores"])
+        heu["scores"] = np.array(heu["scores"])
         
         file = open(optima_path+"/"+instance_name+".sln")
         optimum_data = [line.split() for line in file.readlines()]
@@ -57,18 +67,20 @@ if __name__ == "__main__":
         
         instances.append({"name":instance_name, "n":n, "optimum":optimum, 
                           "solution":solution, "data_s":steepest, 
-                          "data_g":greedy, "data_r":random})
+                          "data_g":greedy, "data_r":random, "data_h":heu})
 
-    s, g, r, names = [],[],[],[]
+    s, g, r, h, names = [],[],[],[],[]
     for instance in instances:
         s.append(instance["data_s"]["mean_time"])
         r.append(instance["data_r"]["mean_time"])
         g.append(instance["data_g"]["mean_time"])
+        h.append(instance["data_h"]["mean_time"])
         names.append(instance["name"])
         
     plt.plot(s, "bo-", label="Steepest")
     plt.plot(g, "ro-", label="Greedy")
     plt.plot(r, "go-", label="Random")
+    plt.plot(h, "yo-", label="Heuristic")
     
     plt.title("Czas działania")
     plt.legend()
