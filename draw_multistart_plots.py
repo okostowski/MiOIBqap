@@ -7,9 +7,10 @@ if __name__ == "__main__":
     folder_path = sys.argv[1]
     optima_path = sys.argv[2]
     instance_names = sys.argv[3:] #niech np 2 pierwsze wchodzą na wykres podobieństwa itp
-    '''folder_path='../wyniki'
+    
+    folder_path='../wyniki'
     optima_path='../rozwiazania'
-    instance_names=['els19','chr25a']'''
+    instance_names=['els19','chr25a']
     instances = []
     mnoznik_czasu = 1000 / 1000
     for instance_name in instance_names:
@@ -114,16 +115,16 @@ if __name__ == "__main__":
             
         plt.figure()
         plt.plot(s_scores_max, "bo-", label="Steepest")
-        plt.plot(g_scores_max, "ro-", label="Greedy")
+        plt.plot(g_scores_max, "rv-", label="Greedy")
         
-        plt.title("Jakość najlepszego rozwiązania w zależności od liczby restartów")
+        #plt.title("Jakość najlepszego rozwiązania w zależności od liczby restartów")
         plt.legend()
-        plt.xticks(np.arange(10), np.linspace(50,500,10,endpoint=True))
+        plt.xticks(np.arange(10), [np.int(x) for x in np.linspace(50,500,10,endpoint=True)])
         
         plt.xlabel("Liczba restartów")
         plt.ylabel("Jakość rozwiązania")
         plt.grid(b=True, which='major', color='#666666', linestyle='-')
-        plt.minorticks_on()
+        #plt.minorticks_on()
         plt.grid(b=True, which='minor', color='#999999', linestyle='-', alpha=0.2)
         
         plt.savefig("plot_restarts_vs_solution_max_"+instance['name']+".pdf")
@@ -133,7 +134,7 @@ if __name__ == "__main__":
         plt.subplot(1,2,1)
         plt.errorbar(xs, s_scores_mean, s_scores_std, fmt="bo-", label="Steepest")
         plt.title("Steepest")
-        plt.xticks(np.arange(10), np.linspace(50,500,10,endpoint=True))
+        plt.xticks(np.arange(10), [np.int(x) for x in np.linspace(50,500,10,endpoint=True)])
         plt.xlabel("Liczba restartów")
         plt.ylabel("Średnia jakość rozwiązania")
         plt.grid(b=True, which='major', color='#666666', linestyle='-')
@@ -141,9 +142,9 @@ if __name__ == "__main__":
         plt.grid(b=True, which='minor', color='#999999', linestyle='-', alpha=0.2)
                  
         plt.subplot(1,2,2)
-        plt.errorbar(xs, g_scores_mean, g_scores_std, fmt="ro-", label="Greedy")
+        plt.errorbar(xs, g_scores_mean, g_scores_std, fmt="rv-", label="Greedy")
         plt.title("Greedy")
-        plt.xticks(np.arange(10), np.linspace(50,500,10,endpoint=True))
+        plt.xticks(np.arange(10), [np.int(x) for x in np.linspace(50,500,10,endpoint=True)])
         plt.xlabel("Liczba restartów")
         plt.ylabel("Średnia jakość rozwiązania")
         plt.grid(b=True, which='major', color='#666666', linestyle='-')
